@@ -1,5 +1,8 @@
 function p = set_parameters(sub, task, num_run)
 % Set parameters and directory names for analyzing OPM-MEG data
+%
+% Copyright (C) 2011, ATR All Rights Reserved.
+% License : New BSD License(see VBMEG_LICENSE.txt)
 
 %% Set base directories and files
 root_raw = fullfile(fileparts(cd), 'OPMdata_from_OSEdataset');
@@ -17,16 +20,9 @@ else
     p.num_run = num_run;
 end
 
-%% set bandpass filter
-parm_filter = struct(...
-    'bandpass_freq', [6 50],...
-    'bandpass_filtertype' , 'butter',...
-    'bandpass_filterorder', 4,...
-    'bandstop_freq', [57 63; 117 123],...
-    'bandstop_filtertype' , 'butter',...
-    'bandstop_filterorder', 4,...
-    'fsamp', 500);
-p.filter = parm_filter;
+
+
+
 p.filter_ex = parm_filter;% For extra channels
 
 %% For making trial data

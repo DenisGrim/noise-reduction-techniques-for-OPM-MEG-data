@@ -10,13 +10,13 @@ vbmeg
 addpath(genpath(cd))
 
 % Get properties of dataset
-d = define_dataset;
+dataset = define_dataset;
 
 % Set subject, task, and the number of runs
 ss = 4;% 1, 2, 3, or 4
-sub = d.sub_list{ss};
+sub = dataset.sub_list{ss};
 tt = 3;% 1: Auditory, 2: Motor, 3: Somatosensory
-task = d.task_list{tt};
+task = dataset.task_list{tt};
 num_run = d.num_run_table_opm{sub, task};
 
 % Set parameters for analyzing OPM-MEG data
