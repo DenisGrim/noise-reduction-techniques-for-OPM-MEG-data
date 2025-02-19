@@ -50,6 +50,7 @@ for run = 1:p.num_run
     %% Compute homogeneous field (HF)
     % Load Qpick of active channels
     [~, Qpick] = vb_load_sensor(input_file, 'MEG');
+    %%
     X = Qpick;
 
     %ref = X\y;
@@ -57,7 +58,7 @@ for run = 1:p.num_run
 
     % Projection matrix to null space (= residual)
     M = eye(size(X,1)) - X*Xi;
-
+%%
     % Normalize data
     [y_z1, y_ave1, y_std1] = normalize_data(y, 'ch_mean');
     [y_z2, y_ave2, y_std2] = normalize_data(y_z1, 'variance');

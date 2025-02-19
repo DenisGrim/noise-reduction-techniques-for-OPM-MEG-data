@@ -70,8 +70,6 @@ for run = 1:p.num_run
 
     bexp = correctedData;
 
-    %[bexp,H, ~] = den_spm_opm_hfc(S);
-    %y = bexp;
 
     if doPlot
         % Show results of HFC

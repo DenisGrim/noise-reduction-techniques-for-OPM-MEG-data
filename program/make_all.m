@@ -15,9 +15,9 @@ dataset = define_dataset;
 % Set subject, task, and the number of runs
 ss = 4;% 1, 2, 3, or 4
 sub = dataset.sub_list{ss};
-tt = 3;% 1: Auditory, 2: Motor, 3: Somatosensory
+tt = 1;% 1: Auditory, 2: Motor, 3: Somatosensory
 task = dataset.task_list{tt};
-num_run = d.num_run_table_opm{sub, task};
+num_run = dataset.num_run_table_opm{sub, task};
 
 % Set parameters for analyzing OPM-MEG data
 p = set_parameters(sub, task, num_run);
@@ -48,7 +48,7 @@ PREP = {p.dirname.load};
 
 if strcmp(p.task, 'Auditory') || strcmp(p.task, 'Somatosensory')
     % Homogeneous field correction
-    PREP{end+1} = apply_hfc(p, PREP{end}, p.dirname.hfc);
+    PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
 end
 
 % Detrend data using spline interpolation
