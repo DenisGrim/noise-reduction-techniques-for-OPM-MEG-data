@@ -49,52 +49,24 @@ for run = 1:p.num_run
     %copy data for 'before' plot later
     y = bexp;
 
-
-    %% Compute homogeneous field (HF)
-    % Load Qpick of active channels
-    [~, Qpick] = vb_load_sensor(input_file, 'MEG');
-    X = Qpick;
-
-    %ref = X\y;
-    Xi = pinv(X); % (X'X)^(-1)*X'
-
-    % Projection matrix to null space (= residual)
-    M = eye(size(X,1)) - X*Xi;
-
-    % Normalize data
-    [y_z1, y_ave1, y_std1] = normalize_data(y, 'ch_mean');
-    [y_z2, y_ave2, y_std2] = normalize_data(y_z1, 'variance');
-
-    % Apply HF
-    yz_hf = M*y_z2;
-    Hz = Xi*y_z2; % Estimated homogeneous field
-    H = Xi*y_z1; % Mean-normalized H
-
-    % Re-normalize data
-    y_hf0 = re_normalize_data(yz_hf, 'variance', y_ave2, y_std2);
-    y_hf = re_normalize_data(y_hf0, 'ch_mean', y_ave1, y_std1);
-
-    bexp = y_hf;
+    bexp = bexp - mean(bexp, 1);
 
     if doPlot
         % Show results of HFC
         set_fig_property(4, 3, 15, 15);
         close all
         h = figure; hold on
-        subplot(3, 1, 1), plot(time, y'), title('Before HFC')
+        subplot(3, 1, 1), plot(time, y'), title('Before Common Average')
         xlim([min(time) max(time)]), ylim([min(y(:)) max(y(:))])
         ylabel('Magnetic field [T]')
-        subplot(3, 1, 2), plot(time, y_hf'), title('After HFC')
-        xlim([min(time) max(time)]), ylim([min(y_hf(:)) max(y_hf(:))])
+        subplot(3, 1, 2), plot(time, bexp'), title('After Common Average')
+        xlim([min(time) max(time)]), ylim([min(bexp(:)) max(bexp(:))])
         ylabel('Magnetic field [T]')
-        subplot(3, 1, 3), plot(time, H'), title('Estimated homogeneous magnetic field')
-        xlim([min(time) max(time)]), ylim([min(H(:)) max(H(:))])
-        xlabel('Time [sec]'), ylabel('Magnetic field [T]'), legend({'x' 'y' 'z'})
-        fig_file = fullfile(p.fig_root, mfilename, p.task, [p.sub '_' file_name '_hf']);
+        fig_file = fullfile(p.fig_root, mfilename, p.task, [p.sub '_' file_name '_car']);
         vb_savefig_as_shown(h, fig_file)
         disp([fig_file '.png was saved.'])
     end
-
+%{
     %% Save projection matrix M
     file_proj = fullfile(output_dir, ['M_' file_name '.mat']);
     save(file_proj, 'M');
@@ -102,15 +74,18 @@ for run = 1:p.num_run
 
     %% Save denoised data
     % If original bexp was epoched, re-shape it to original size
+%}
     if ntrial~=1
         bexp = reshape(bexp, [nch, ntime, ntrial]);
         % Reshape estiamted homogeneous field as well
-        H    = reshape(H, [size(H,1), ntime, ntrial]);
+        %H    = reshape(H, [size(H,1), ntime, ntrial]);
     end
 
+    %{%}
     % Make output file and append estimated HF as reference ch
     append_ch = [];
-    append_ch.data = H;
+    %append_ch.data = H;
+    append_ch.data = zeros(3, size(bexp, 2));
     append_ch.name = {'HFx', 'HFy', 'HFz'};
     append_ch.type = [257, 257, 257];
     append_extra_ch(input_file, append_ch, output_file); % It makes output_file
@@ -121,6 +96,12 @@ for run = 1:p.num_run
     append_ch.name = ch_info.Name;
     append_ch.type = ch_info.Type;
     append_data_ch(output_file, append_ch)
+    
+%{
+    B = load(input_file);
+    B.bexp = bexp;
+    vb_fsave(output_file, '-struct', 'B');
+%}
     disp([output_file ' was overwritten.'])
 end
 

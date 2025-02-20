@@ -76,11 +76,11 @@ for run = 1:p.num_run
         set_fig_property(4, 3, 15, 15);
         close all
         h = figure; hold on
-        subplot(3, 1, 1), plot(time, y'), title('After harmonic FC') %title('Before HFC')
+        subplot(3, 1, 1), plot(time, y'), title('Before Harmonic FC') %title('Before HFC')
         xlim([min(time) max(time)]), ylim([min(y(:)) max(y(:))])
         ylabel('Magnetic field [T]')
         
-            subplot(3, 1, 2), plot(time, correctedData'), title('After HFC')
+            subplot(3, 1, 2), plot(time, correctedData'), title('After Harmonic FC')
         xlim([min(time) max(time)]), ylim([min(correctedData(:)) max(correctedData(:))])
         ylabel('Magnetic field [T]')
         subplot(3, 1, 3), plot(time, HarmonicField'), title('Estimated harmonic magnetic field')

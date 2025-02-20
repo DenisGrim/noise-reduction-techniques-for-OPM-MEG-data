@@ -13,7 +13,7 @@ addpath(genpath(cd))
 dataset = define_dataset;
 
 % Set subject, task, and the number of runs
-ss = 4;% 1, 2, 3, or 4
+ss = 2;% 1, 2, 3, or 4
 sub = dataset.sub_list{ss};
 tt = 1;% 1: Auditory, 2: Motor, 3: Somatosensory
 task = dataset.task_list{tt};
@@ -48,7 +48,7 @@ PREP = {p.dirname.load};
 
 if strcmp(p.task, 'Auditory') || strcmp(p.task, 'Somatosensory')
     % Homogeneous field correction
-    PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
+    PREP{end+1} = apply_car(p, PREP{end}, p.dirname.hfc);
 end
 
 % Detrend data using spline interpolation

@@ -79,10 +79,10 @@ for run = 1:p.num_run
         set_fig_property(4, 3, 15, 15);
         close all
         h = figure; hold on
-        subplot(3, 1, 1), plot(time, y'), title('Before HFC')
+        subplot(3, 1, 1), plot(time, y'), title('Before Homogeneous FC')
         xlim([min(time) max(time)]), ylim([min(y(:)) max(y(:))])
         ylabel('Magnetic field [T]')
-        subplot(3, 1, 2), plot(time, y_hf'), title('After HFC')
+        subplot(3, 1, 2), plot(time, y_hf'), title('After Homogenous FC')
         xlim([min(time) max(time)]), ylim([min(y_hf(:)) max(y_hf(:))])
         ylabel('Magnetic field [T]')
         subplot(3, 1, 3), plot(time, H'), title('Estimated homogeneous magnetic field')
