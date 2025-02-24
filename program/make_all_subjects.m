@@ -55,8 +55,8 @@ for ss = 1:4
 		PREP = {p.dirname.load};
 
 		if strcmp(p.task, 'Auditory') || strcmp(p.task, 'Somatosensory')
-			% Homogeneous field correction
-			PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
+			% Rereferencing
+			PREP{end+1} = apply_car(p, PREP{end}, p.dirname.hfc);
 		end
 
 		% Detrend data using spline interpolation

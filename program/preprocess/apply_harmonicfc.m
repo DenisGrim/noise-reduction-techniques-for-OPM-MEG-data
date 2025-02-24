@@ -47,7 +47,7 @@ for run = 1:p.num_run
     args=[];
     args.o= Qpick; % sensor orientation
     args.v = pick; % sensor position
-    args.li = 2; % harmonic order
+    args.li = 1; % harmonic order
     % use spm to get X
     X = den_spm_opm_vslm(args);
 
@@ -61,8 +61,7 @@ for run = 1:p.num_run
     % Apply HF
     correctedDataNormalized = M * deviationNormalizedData;
     % Hz = Xi * deviationNormalized; % calculated and not used in reference
-    % apply_hfc
-    HarmonicField = pinv(X)* meanNormalized; % 
+    HarmonicField = pinv(X)* meanNormalized; %  not sure if this is correct?
 
     % Re-normalize data
     correctedDataMeanNormalized = re_normalize_data(correctedDataNormalized, 'variance', ave1, std1);
