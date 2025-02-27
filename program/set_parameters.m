@@ -11,6 +11,7 @@ p.raw_data_root = fullfile(root_raw, p.sub);% Raw data directory of a subject
 p.proj_root = fullfile(root_analyzed, p.sub);% Directory to save analyzed data
 p.fig_root = fullfile(root_analyzed, 'figure');% Directory to save figures
 
+
 if isempty(num_run)
     p.num_run = 1;
 else

@@ -21,10 +21,11 @@ unit_coef = 10^15; % T -> fT
 unit_disp = 'fT';
 noise_floor = 15; % Noise floor is 15 [fT/sqrt(HZ)]
 
+
 for run = 1:p.num_run
     file_name = sprintf('run%02d', run);
     data_file = fullfile(p.proj_root, input_dirname, p.task, [file_name '.meg.mat']);
-    
+
     %% Load data
     loadspec = [];
     loadspec.ActiveChannel = true;% Load active channels only
@@ -50,6 +51,7 @@ for run = 1:p.num_run
     
     %% Plot time series
     h = figure;
+
     subplot(2, 1, 1), hold on
     max_y = max(y(:));
     min_y = min(y(:));
