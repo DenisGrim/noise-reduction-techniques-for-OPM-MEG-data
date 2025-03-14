@@ -34,6 +34,20 @@ time = time_info.time;
 
 % Average OPM-MEG data across trials
 mdata = mean(data, 3);
+standardDeviation = std(data, 0, 3);
+
+SNRMatrix = abs(mdata ./ standardDeviation); % calculate mean/std for SNR
+SNRMatrix = 10 * log10(SNRMatrix); % 10*log_10 for dB
+SNRChannelwise = mean(SNRMatrix, 2); % average over time
+
+% open file and write all SNRs into it + mean over channel
+SNRfile = fopen(fullfile(p.proj_root, p.dirname.trial, ['SNR_' prefix_in_ p.task '.txt']), 'w');
+fprintf(SNRfile, '%f\n', SNRChannelwise);
+meanSNR = mean(SNRChannelwise);
+fprintf(SNRfile, '\nMean: %f\n', meanSNR);
+fclose(SNRfile);
+
+
 
 % Detect a peak within p.time_of_interest_sec
 power = sum(mdata.^2, 1);

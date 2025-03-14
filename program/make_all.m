@@ -13,7 +13,7 @@ addpath(genpath(cd))
 dataset = define_dataset;
 
 % Set subject, task, and the number of runs
-ss = 2;% 1, 2, 3, or 4
+ss = 1;% 1, 2, 3, or 4
 sub = dataset.sub_list{ss};
 tt = 1;% 1: Auditory, 2: Motor, 3: Somatosensory
 task = dataset.task_list{tt};
@@ -58,10 +58,12 @@ PREP{end+1} = apply_detrending(p, PREP{end}, p.dirname.detrend);
 PREP{end+1} = apply_filtering(p, PREP{end}, p.dirname.filter);
 
 % Check processed data
+%{
 for pp = 1:length(PREP)
     show_processed_data(p, PREP{pp});
 end
 compare_processed_psd(p, PREP);
+%}
 
 % Segment continuous data into trials (epochs)
 make_trial(p, PREP{end});

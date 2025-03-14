@@ -24,12 +24,6 @@ num_run = d.num_run_table_opm{sub, task};
 for ss = 1:4
 	sub = dataset.sub_list{ss};
 	for tt = 1:3
-        if tt == 2
-            continue;
-        end
-        if ss == 2 && tt == 1
-            continue;
-        end
 		task = dataset.task_list{tt};
 		num_run = dataset.num_run_table_opm{sub, task};
 
@@ -60,10 +54,8 @@ for ss = 1:4
 		% The order of following processes is easily changable by modifying input/ouput dirname
 		PREP = {p.dirname.load};
 
-		%if strcmp(p.task, 'Auditory') || strcmp(p.task, 'Somatosensory')
-			% Rereferencing
-			PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
-		%end
+		% Rereferencing
+		PREP{end+1} = apply_car(p, PREP{end}, p.dirname.hfc);
 
 		% Detrend data using spline interpolation
 		PREP{end+1} = apply_detrending(p, PREP{end}, p.dirname.detrend);
@@ -72,10 +64,12 @@ for ss = 1:4
 		PREP{end+1} = apply_filtering(p, PREP{end}, p.dirname.filter);
 
 		% Check processed data
+        %{
 		for pp = 1:length(PREP)
 			show_processed_data(p, PREP{pp});
 		end
 		compare_processed_psd(p, PREP);
+        %}
 
 		% Segment continuous data into trials (epochs)
 		make_trial(p, PREP{end});
