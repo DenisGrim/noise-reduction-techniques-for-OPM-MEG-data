@@ -14,7 +14,12 @@ SNRMatrix = 10 * log10(SNRMatrix);
 SNRChannelwise = mean(SNRMatrix, 2);
 
 % open file and write all channel's SNRs + mean over channel into it
-SNRfile = fopen(fullfile(p.proj_root, p.dirname.trial, ['SNR_' p.task '.txt']), 'w');
+folderPath = fullfile(p.fig_root, 'SNR', p.sub);
+
+if ~exist(folderPath, 'dir')
+    mkdir(folderPath);
+end
+SNRfile = fopen(fullfile(folderPath, ['SNR_' p.task '.txt']), 'w');
 fprintf(SNRfile, '%f\n', SNRChannelwise);
 meanSNR = mean(SNRChannelwise);
 fprintf(SNRfile, '\nMean: %f\n', meanSNR);
