@@ -43,13 +43,10 @@ end
 % Import the information of bad channels, which were manually selected
 import_bad_ch(p, p.dirname.load);
 
-% The order of following processes is easily changable by modifying input/ouput dirname
 PREP = {p.dirname.load};
 
-if strcmp(p.task, 'Auditory') || strcmp(p.task, 'Somatosensory')
-    % Homogeneous field correction
-    PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
-end
+% noise correction
+PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
 
 % Detrend data using spline interpolation
 PREP{end+1} = apply_detrending(p, PREP{end}, p.dirname.detrend);

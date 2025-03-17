@@ -44,10 +44,9 @@ for ss = 1:4
 		% Import the information of bad channels, which were manually selected
 		import_bad_ch(p, p.dirname.load);
 
-		% The order of following processes is easily changable by modifying input/ouput dirname
 		PREP = {p.dirname.load};
 
-		% Rereferencing
+		% Noise correction
 		PREP{end+1} = apply_car(p, PREP{end}, p.dirname.hfc);
 
 		% Detrend data using spline interpolation
