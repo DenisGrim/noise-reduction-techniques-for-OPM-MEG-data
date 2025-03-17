@@ -47,7 +47,7 @@ for ss = 1:4
 		PREP = {p.dirname.load};
 
 		% Noise correction
-		PREP{end+1} = apply_car(p, PREP{end}, p.dirname.hfc);
+		PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
 
 		% Detrend data using spline interpolation
 		PREP{end+1} = apply_detrending(p, PREP{end}, p.dirname.detrend);

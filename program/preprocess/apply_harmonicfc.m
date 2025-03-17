@@ -40,14 +40,14 @@ for run = 1:p.num_run
     % quick data copy for plot
     y = bexp;
 
-    %% harmonic field correction??
+    %% harmonic field correction
     % Load Qpick of active channels
     [pick, Qpick] = vb_load_sensor(input_file, 'MEG');
 
     args=[];
     args.o= Qpick; % sensor orientation
     args.v = pick; % sensor position
-    args.li = 1; % harmonic order
+    args.li = 2; % harmonic order
     % use spm to get X
     X = den_spm_opm_vslm(args);
 
