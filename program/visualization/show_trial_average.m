@@ -23,31 +23,23 @@ set_fig_property(3, 2, 15, 15);
 twin_to_show_sec = p.time_show_sec; % sec
 twin_of_interest_sec = p.time_of_interest_sec; % sec
 
+%%
 % Set input file
 data_file = fullfile(p.proj_root, p.dirname.trial, [prefix_in_ p.task '.info.mat']);
-
+%%
+data_file = fullfile(p.proj_root, p.dirname.trial, ['ber_' p.task '.info.mat']);
 % Load OPM-MEG data, channel, and time information
 [data, channel_info, time_info] = vb_load_meg_data(data_file);
 time = time_info.time;
 [~, from_toi] = min(abs(time-p.time_of_interest_sec(1)));
 [~, to_toi] = min(abs(time-p.time_of_interest_sec(2)));
 
+get_SNR(p, data)
+%% write SNR into file
+
+
 % Average OPM-MEG data across trials
 mdata = mean(data, 3);
-standardDeviation = std(data, 0, 3);
-
-SNRMatrix = abs(mdata ./ standardDeviation); % calculate mean/std for SNR
-SNRMatrix = 10 * log10(SNRMatrix); % 10*log_10 for dB
-SNRChannelwise = mean(SNRMatrix, 2); % average over time
-
-% open file and write all SNRs into it + mean over channel
-SNRfile = fopen(fullfile(p.proj_root, p.dirname.trial, ['SNR_' prefix_in_ p.task '.txt']), 'w');
-fprintf(SNRfile, '%f\n', SNRChannelwise);
-meanSNR = mean(SNRChannelwise);
-fprintf(SNRfile, '\nMean: %f\n', meanSNR);
-fclose(SNRfile);
-
-
 
 % Detect a peak within p.time_of_interest_sec
 power = sum(mdata.^2, 1);
