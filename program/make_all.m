@@ -12,8 +12,6 @@ addpath(genpath(cd))
 % Get properties of dataset
 dataset = define_dataset;
 
-
-
 for ss = 1:4
 	sub = dataset.sub_list{ss};
 	for tt = 1:3

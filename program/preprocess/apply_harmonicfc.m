@@ -75,7 +75,7 @@ for run = 1:p.num_run
         set_fig_property(4, 3, 15, 15);
         close all
         h = figure; hold on
-        subplot(3, 1, 1), plot(time, y'), title('Before Harmonic FC') %title('Before HFC')
+        subplot(3, 1, 1), plot(time, y'), title('Before Harmonic Field Correction')
         xlim([min(time) max(time)]), ylim([min(y(:)) max(y(:))])
         ylabel('Magnetic field [T]')
         
@@ -84,7 +84,7 @@ for run = 1:p.num_run
         ylabel('Magnetic field [T]')
         subplot(3, 1, 3), plot(time, HarmonicField'), title('Estimated harmonic magnetic field')
         xlim([min(time) max(time)]), ylim([min(HarmonicField(:)) max(HarmonicField(:))])
-        xlabel('Time [sec]'), ylabel('Magnetic field [T]'), legend({'x' 'y' 'z'})
+        xlabel('Time [sec]'), ylabel('Magnetic field [T]')
         fig_file = fullfile(p.fig_root, mfilename, p.task, [p.sub '_' file_name '_hf']);
         vb_savefig_as_shown(h, fig_file)
         disp([fig_file '.png was saved.'])
@@ -110,7 +110,7 @@ for run = 1:p.num_run
     
     append_ch = [];
     append_ch.data = HarmonicField;
-    append_ch.name = {'HFx', 'HFy', 'HFz'};
+    append_ch.name = {'HFx', 'HFy', 'HFz'}; % no idea what to do here
     append_ch.type = [257, 257, 257];
     append_extra_ch(input_file, append_ch, output_file); % It makes output_file
     
