@@ -25,7 +25,7 @@ twin_of_interest_sec = p.time_of_interest_sec; % sec
 
 %%
 % Set input file
-data_file = fullfile(p.proj_root, p.dirname.trial, [prefix_in_ p.task '.info.mat']);
+%data_file = fullfile(p.proj_root, p.dirname.trial, [prefix_in_ p.task '.info.mat']);
 %%
 data_file = fullfile(p.proj_root, p.dirname.trial, ['ber_' p.task '.info.mat']);
 % Load OPM-MEG data, channel, and time information
@@ -34,9 +34,13 @@ time = time_info.time;
 [~, from_toi] = min(abs(time-p.time_of_interest_sec(1)));
 [~, to_toi] = min(abs(time-p.time_of_interest_sec(2)));
 
-get_SNR(p, data)
-%% write SNR into file
 
+%% calculate and write SNR into file
+if strcmpi(p.snr_type, 'power')
+    get_power_SNR(p, data)
+else 
+    get_SNR(p, data)
+end
 
 % Average OPM-MEG data across trials
 mdata = mean(data, 3);

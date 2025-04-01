@@ -11,7 +11,7 @@ addpath(genpath(cd))
 
 % Get properties of dataset
 dataset = define_dataset;
-
+%%
 for ss = 1:4
 	sub = dataset.sub_list{ss};
 	for tt = 1:3
@@ -58,7 +58,7 @@ for ss = 1:4
 		for pp = 1:length(PREP)
 			show_processed_data(p, PREP{pp});
 		end
-		compare_processed_psd(p, PREP);
+		%compare_processed_psd(p, PREP);
         
 
 		% Segment continuous data into trials (epochs)

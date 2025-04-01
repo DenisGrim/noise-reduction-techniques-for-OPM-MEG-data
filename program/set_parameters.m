@@ -33,6 +33,7 @@ p.filter_ex = parm_filter;% For extra channels
 %% For making trial data
 p.Pretrigger_ms  = 300; % Before trigger [msec]
 p.Posttrigger_ms = 500; % After trigger [msec]
+p.snr_type = 'power'; % 'power' for power SNR. Defaults to average otherwise
 
 %% Dynamic-range of OPM for detecting saturation used in vb_job_trial_onset_opm.m
 p.dr_ub = 1.5*10^-9;  % Upper bound
