@@ -16,6 +16,7 @@ for ss = 1:4
 	sub = dataset.sub_list{ss};
 	for tt = 1:3
 		task = dataset.task_list{tt};
+        
 		num_run = dataset.num_run_table_opm{sub, task};
 
 		% Set parameters for analyzing OPM-MEG data
@@ -45,7 +46,7 @@ for ss = 1:4
 		PREP = {p.dirname.load};
 
 		% Noise correction
-		PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
+		PREP{end+1} = apply_hfc(p, PREP{end}, p.dirname.hfc);
 
 		% Detrend data using spline interpolation
 		PREP{end+1} = apply_detrending(p, PREP{end}, p.dirname.detrend);

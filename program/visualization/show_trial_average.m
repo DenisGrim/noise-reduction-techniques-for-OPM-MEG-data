@@ -20,28 +20,23 @@ close all
 set_fig_property(3, 2, 15, 15);
 
 % Set parameters
-twin_to_show_sec = p.time_show_sec; % sec
-twin_of_interest_sec = p.time_of_interest_sec; % sec
+%twin_to_show_sec = p.time_show_sec; % sec
+%twin_of_interest_sec = p.time_of_interest_sec; % sec
 
-%%
-% Set input file
-%data_file = fullfile(p.proj_root, p.dirname.trial, [prefix_in_ p.task '.info.mat']);
+
 %%
 data_file = fullfile(p.proj_root, p.dirname.trial, ['ber_' p.task '.info.mat']);
 % Load OPM-MEG data, channel, and time information
 [data, channel_info, time_info] = vb_load_meg_data(data_file);
 time = time_info.time;
+
 [~, from_toi] = min(abs(time-p.time_of_interest_sec(1)));
 [~, to_toi] = min(abs(time-p.time_of_interest_sec(2)));
 
 
 %% calculate and write SNR into file
-if strcmpi(p.snr_type, 'power')
-    get_power_SNR(p, data)
-else 
-    get_SNR(p, data)
-end
-
+get_SNR(p, data, time)
+%%
 % Average OPM-MEG data across trials
 mdata = mean(data, 3);
 
