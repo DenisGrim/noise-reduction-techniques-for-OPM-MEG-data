@@ -1,9 +1,11 @@
 function p = set_parameters(sub, task, num_run)
 % Set parameters and directory names for analyzing OPM-MEG data
 
+noise_reduction_technique = '' % 'car', 'homfc', 'harfc', otherwise none. Acts as foldername, too!
+
 %% Set base directories and files
 root_raw = fullfile(fileparts(cd), 'OPMdata_from_OSEdataset');
-root_analyzed  = fullfile(fileparts(cd), 'analyzed_data');
+root_analyzed  = fullfile(fileparts(cd), 'analyzed_data', noise_reduction_technique);
 p = struct;
 p.sub = sub;
 p.task = task;
@@ -65,7 +67,7 @@ p.time_show_sec = [-p.Pretrigger_ms p.Posttrigger_ms] ./ 1000;
 parm_dirname = struct;
 parm_dirname.modality = 'opm-meg';
 parm_dirname.load = 'load';
-parm_dirname.hfc = 'hfc';
+parm_dirname.noise_technique = noise_reduction_technique;
 parm_dirname.detrend = 'detrend';
 parm_dirname.filter = 'filter';
 parm_dirname.trial = 'trial';

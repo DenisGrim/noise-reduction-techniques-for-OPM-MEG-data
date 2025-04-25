@@ -46,7 +46,14 @@ for ss = 1:4
 		PREP = {p.dirname.load};
 
 		% Noise correction
-		PREP{end+1} = apply_hfc(p, PREP{end}, p.dirname.hfc);
+		if strcmp(p.dirname.noise_technique, 'homfc')
+			PREP{end+1} = apply_hfc(p, PREP{end}, p.dirname.noise_technique);
+		elseif strcmp(p.dirname.noise_technique, 'harfc')
+			PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.noise_technique);
+		elseif strcmp(p.dirname.noise_technique, 'car')
+			PREP{end+1} = apply_car(p, PREP{end}, p.dirname.noise_technique);
+		end
+
 
 		% Detrend data using spline interpolation
 		PREP{end+1} = apply_detrending(p, PREP{end}, p.dirname.detrend);
@@ -59,7 +66,7 @@ for ss = 1:4
 		for pp = 1:length(PREP)
 			show_processed_data(p, PREP{pp});
 		end
-		%compare_processed_psd(p, PREP);
+		compare_processed_psd(p, PREP);
         
 
 		% Segment continuous data into trials (epochs)
