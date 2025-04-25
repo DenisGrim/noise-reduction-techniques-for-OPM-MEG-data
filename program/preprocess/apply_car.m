@@ -1,12 +1,4 @@
 function output_dirname = apply_car(p, input_dirname, output_dirname, doPlot)
-% Remove environmental noise using Homogeneous Field Correction (HFC) (Tierney et al., 2021)
-%
-% [Reference]
-% Tierney et al. Modelling optically pumped magnetometer inteference in MEG
-% as a spatially homogeneous magnetic field. NeuroImage 244 (2021) 118484.
-%
-% Copyright (C) 2011, ATR All Rights Reserved.
-% License : New BSD License(see VBMEG_LICENSE.txt)
 
 disp(mfilename);
 
@@ -20,7 +12,7 @@ if ~exist(output_dir, 'dir')
 end
 
 % If true, save the figure of results
-% Defalt: true
+% Default: true
 if ~exist('doPlot', 'var') || isempty(doPlot)
     doPlot = true;
 end
@@ -66,22 +58,13 @@ for run = 1:p.num_run
         vb_savefig_as_shown(h, fig_file)
         disp([fig_file '.png was saved.'])
     end
-%{
-    %% Save projection matrix M
-    file_proj = fullfile(output_dir, ['M_' file_name '.mat']);
-    save(file_proj, 'M');
-    disp(['The projection matrix M was saved in ' file_proj '.'])
 
-    %% Save denoised data
-    % If original bexp was epoched, re-shape it to original size
-%}
     if ntrial~=1
         bexp = reshape(bexp, [nch, ntime, ntrial]);
         % Reshape estiamted homogeneous field as well
         %H    = reshape(H, [size(H,1), ntime, ntrial]);
     end
 
-    %{%}
     % Make output file and append estimated HF as reference ch
     append_ch = [];
     %append_ch.data = H;
@@ -97,11 +80,6 @@ for run = 1:p.num_run
     append_ch.type = ch_info.Type;
     append_data_ch(output_file, append_ch)
     
-%{
-    B = load(input_file);
-    B.bexp = bexp;
-    vb_fsave(output_file, '-struct', 'B');
-%}
     disp([output_file ' was overwritten.'])
 end
 

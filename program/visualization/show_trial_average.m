@@ -1,8 +1,5 @@
 function  show_trial_average(p, prefix_in)
 % Show trial-averaged OPM-MEG data
-%
-% Copyright (C) 2011, ATR All Rights Reserved.
-% License : New BSD License(see VBMEG_LICENSE.txt)
 
 disp(mfilename);
 

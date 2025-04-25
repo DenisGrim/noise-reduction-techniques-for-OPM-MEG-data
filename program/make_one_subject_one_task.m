@@ -46,7 +46,13 @@ import_bad_ch(p, p.dirname.load);
 PREP = {p.dirname.load};
 
 % noise correction
-PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.hfc);
+if strcmp(p.dirname.noise_technique, 'homfc')
+        PREP{end+1} = apply_hfc(p, PREP{end}, p.dirname.noise_technique);
+elseif strcmp(p.dirname.noise_technique, 'harfc')
+        PREP{end+1} = apply_harmonicfc(p, PREP{end}, p.dirname.noise_technique);
+elseif strcmp(p.dirname.noise_technique, 'car')
+        PREP{end+1} = apply_car(p, PREP{end}, p.dirname.noise_technique);
+end
 
 % Detrend data using spline interpolation
 PREP{end+1} = apply_detrending(p, PREP{end}, p.dirname.detrend);
